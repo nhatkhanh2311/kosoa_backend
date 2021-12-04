@@ -3,12 +3,12 @@ class Api::SessionsController < ApplicationController
     if (user = User.find_by_username(params.require(:username)))
       if user.authenticate(params.require(:password))
         token = AuthenticationTokenService.encode(user.id)
-        render json: { success?: true, token: token }, status: :created
+        render json: { token: token, role: user.role, level: user.level }, status: :created
       else
-        render json: { success?: false, message: "wrong password" }, status: :unauthorized
+        render json: { message: "wrong password" }, status: :unauthorized
       end
     else
-      render json: { success?: false, message: "username not exist" }, status: :unauthorized
+      render json: { message: "username not exist" }, status: :unauthorized
     end
   end
 end
