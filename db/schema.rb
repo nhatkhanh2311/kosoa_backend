@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_04_140413) do
+ActiveRecord::Schema.define(version: 2022_01_09_135723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "system_terms", force: :cascade do |t|
+    t.string "term", null: false
+    t.string "pronunciation"
+    t.string "definition"
+    t.string "description"
+    t.string "example"
+    t.string "note"
+    t.integer "level", null: false
+    t.string "category", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index %w[term level], name: "index_system_terms_on_term_and_level"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
@@ -26,6 +40,8 @@ ActiveRecord::Schema.define(version: 2021_12_04_140413) do
     t.string "level"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email"
+    t.index ["username"], name: "index_users_on_username"
   end
 
 end
