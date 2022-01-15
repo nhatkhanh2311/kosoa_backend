@@ -5,12 +5,13 @@ Rails.application.routes.draw do
     post "sign-up", to: "users#create"
     # Sign in
     post "sign-in", to: "sessions#create"
+    # Choose level
+    post "choose-level", to: "users#choose_level"
 
-    namespace :admin do
-      # System Terms
-      post "terms/index", to: "system_terms#index"
-      post "terms/create", to: "system_terms#create"
-      post "terms/destroy", to: "system_terms#destroy"
-    end
+    # System Terms
+    post "terms/index", to: "system_terms#index"
+    post "terms/create", to: "system_terms#create"
+    post "terms/update", to: "system_terms#update"
+    post "terms/destroy", to: "system_terms#destroy"
   end
 end
