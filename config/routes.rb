@@ -5,8 +5,12 @@ Rails.application.routes.draw do
     post "sign-up", to: "users#create"
     # Sign in
     post "sign-in", to: "sessions#create"
-    # Choose level
-    post "choose-level", to: "users#choose_level"
+
+    # Users
+    post "users/choose-level", to: "users#choose_level"
+    post "users/avatar", to: "users#avatar"
+    get "users/personal", to: "users#personal"
+    post "users/show", to: "users#show"
 
     # System Terms
     post "terms/index", to: "system_terms#index"
