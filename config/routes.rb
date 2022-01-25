@@ -14,8 +14,13 @@ Rails.application.routes.draw do
 
     # System Terms
     post "terms/index", to: "system_terms#index"
+    post "terms/show", to: "system_terms#show"
     post "terms/create", to: "system_terms#create"
     post "terms/update", to: "system_terms#update"
     post "terms/destroy", to: "system_terms#destroy"
+
+    # Term Comments
+    post "term/comments/index", to: "term_comments#index"
+    post "term/comments/create", to: "term_comments#create"
   end
 end

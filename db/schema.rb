@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_24_095621) do
+ActiveRecord::Schema.define(version: 2022_01_25_070700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,16 @@ ActiveRecord::Schema.define(version: 2022_01_24_095621) do
     t.index %w[term level], name: "index_system_terms_on_term_and_level"
   end
 
+  create_table "term_comments", force: :cascade do |t|
+    t.string "content", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "system_term_id"
+    t.index ["system_term_id"], name: "index_term_comments_on_system_term_id"
+    t.index ["user_id"], name: "index_term_comments_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "password_digest", null: false
@@ -74,4 +84,6 @@ ActiveRecord::Schema.define(version: 2022_01_24_095621) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "term_comments", "system_terms"
+  add_foreign_key "term_comments", "users"
 end

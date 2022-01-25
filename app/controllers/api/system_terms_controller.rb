@@ -1,10 +1,15 @@
 class Api::SystemTermsController < ApplicationController
-  before_action :logged_in?, only: %i[index]
+  before_action :logged_in?, only: %i[index show]
   before_action :admin?, only: %i[create update destroy]
 
   def index
     terms = SystemTerm.where(level: params.require(:level), category: params.require(:category)).order(:id)
     render json: { terms: terms_to_json(terms) }, status: :ok
+  end
+
+  def show
+    term = SystemTerm.find(params.require(:id))
+    render json: { term: term_to_json(term) }, status: :ok
   end
 
   def create
@@ -53,7 +58,9 @@ class Api::SystemTermsController < ApplicationController
       pronunciation: term.pronunciation,
       definition: term.definition,
       description: term.description,
-      example: term.example
+      example: term.example,
+      level: term.level,
+      category: term.category
     }
   end
 end
