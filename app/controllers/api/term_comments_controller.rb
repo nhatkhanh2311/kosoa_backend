@@ -1,5 +1,5 @@
 class Api::TermCommentsController < ApplicationController
-  before_action :logged_in?, only: %i[index create]
+  before_action :teacher_or_student?, only: %i[index create]
 
   def index
     comments = TermComment.where(system_term_id: params.require(:id))

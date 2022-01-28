@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::API
-  before_action :logged_in?, only: %i[admin? teacher? student?]
-
   def logged_in?
     if token
       user_id = AuthenticationTokenService.decode(token)
@@ -12,22 +10,24 @@ class ApplicationController < ActionController::API
     render status: :unauthorized
   end
 
-  def role
-    user_id = AuthenticationTokenService.decode(token)
-    @user = User.find(user_id)
-    @user[:role]
-  end
-
   def admin?
-    render status: :unauthorized unless role.eql?("admin")
+    logged_in?
+    render status: :unauthorized unless @user.role.eql?("admin")
   end
 
   def teacher?
-    render status: :unauthorized unless role.eql?("teacher")
+    logged_in?
+    render status: :unauthorized unless @user.role.eql?("teacher")
   end
 
   def student?
-    render status: :unauthorized unless role.eql?("student")
+    logged_in?
+    render status: :unauthorized unless @user.role.eql?("student")
+  end
+
+  def teacher_or_student?
+    logged_in?
+    render status: :unauthorized unless @user.role.eql?("teacher") || @user.role.eql?("student")
   end
 
   def token

@@ -1,5 +1,5 @@
 class Api::UsersController < ApplicationController
-  before_action :logged_in?, only: %i[avatar personal]
+  before_action :teacher_or_student?, only: %i[avatar personal]
   before_action :student?, only: %i[choose_level]
 
   def create
