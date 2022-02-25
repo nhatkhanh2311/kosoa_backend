@@ -22,5 +22,30 @@ Rails.application.routes.draw do
     # Term Comments
     post "term/comments/index", to: "term_comments#index"
     post "term/comments/create", to: "term_comments#create"
+
+    # Classes
+    get "classes/index", to: "courses#index"
+    post "classes/show", to: "courses#show"
+    post "classes/create", to: "courses#create"
+    post "classes/avatar", to: "courses#avatar"
+
+    # Members
+    post "members/accepted", to: "members#index_accepted"
+    post "members/requested", to: "members#index_requested"
+    post "members/create", to: "members#create"
+    post "members/destroy", to: "members#destroy"
+    post "members/accept", to: "members#accept"
+    post "members/reject", to: "members#reject"
+    post "members/check", to: "members#check_joined"
+
+    # Notices
+    post "notices/index", to: "notices#index"
+    post "notices/create", to: "notices#create"
+
+    # Search
+    post "search/teacher", to: "users#search_teacher"
+    post "search/student", to: "users#search_student"
+    post "search/class", to: "courses#search"
+    post "search/term", to: "system_terms#search"
   end
 end

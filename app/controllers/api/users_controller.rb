@@ -43,10 +43,28 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def search_teacher
+    users = User.where("(LOWER(name) LIKE LOWER('%#{search_params}%') OR LOWER(username) LIKE LOWER('%#{search_params}%')) AND role LIKE 'teacher'")
+    render json: { results: users_to_json(users) }, status: :ok
+  end
+
+  def search_student
+    users = User.where("(LOWER(name) LIKE LOWER('%#{search_params}%') OR LOWER(username) LIKE LOWER('%#{search_params}%')) AND role LIKE 'student'")
+    render json: { results: users_to_json(users) }, status: :ok
+  end
+
   private
+
+  def search_params
+    params.require(:search)
+  end
 
   def user_params
     params.require(:user).permit(:username, :password, :name, :email, :birthday, :phone, :role)
+  end
+
+  def users_to_json(users)
+    users.map { |user| user_to_json(user) }
   end
 
   def user_to_json(user)

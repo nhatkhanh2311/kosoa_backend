@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_25_070700) do
+ActiveRecord::Schema.define(version: 2022_02_24_145749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,33 @@ ActiveRecord::Schema.define(version: 2022_01_25_070700) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index %w[blob_id variation_digest], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_courses_on_user_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.boolean "accepted", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.index ["course_id"], name: "index_members_on_course_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "notices", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "course_id"
+    t.index ["course_id"], name: "index_notices_on_course_id"
   end
 
   create_table "system_terms", force: :cascade do |t|
@@ -84,6 +111,10 @@ ActiveRecord::Schema.define(version: 2022_01_25_070700) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "courses", "users"
+  add_foreign_key "members", "courses"
+  add_foreign_key "members", "users"
+  add_foreign_key "notices", "courses"
   add_foreign_key "term_comments", "system_terms"
   add_foreign_key "term_comments", "users"
 end

@@ -41,7 +41,16 @@ class Api::SystemTermsController < ApplicationController
     end
   end
 
+  def search
+    terms = SystemTerm.where("term LIKE '%#{search_params}%' OR pronunciation LIKE '%#{search_params}%' OR LOWER(definition) LIKE LOWER('%#{search_params}%')")
+    render json: { results: terms_to_json(terms) }, status: :ok
+  end
+
   private
+
+  def search_params
+    params.require(:search)
+  end
 
   def term_params
     params.require(:term).permit(:term, :pronunciation, :definition, :description, :example, :level, :category)
