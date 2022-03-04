@@ -1,5 +1,5 @@
 class Api::CoursesController < ApplicationController
-  before_action :teacher?, only: %i[index create avatar]
+  before_action :teacher?, only: %i[create avatar]
 
   def index
     courses = @user.courses
@@ -33,6 +33,11 @@ class Api::CoursesController < ApplicationController
   def search
     courses = Course.where("LOWER(name) LIKE LOWER('%#{search_params}%')")
     render json: { results: courses_to_json(courses) }, status: :ok
+  end
+
+  def joined
+    courses = Course.where("id IN (SELECT course_id FROM members WHERE user_id = #{@user.id})")
+    render json: { courses: courses_to_json(courses) }, status: :ok
   end
 
   private

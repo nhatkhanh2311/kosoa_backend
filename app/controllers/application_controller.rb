@@ -30,6 +30,17 @@ class ApplicationController < ActionController::API
     render status: :unauthorized unless @user.role.eql?("teacher") || @user.role.eql?("student")
   end
 
+  def check_personal(id)
+    if token
+      user_id = AuthenticationTokenService.decode(token)
+      user_id == id
+    else
+      false
+    end
+  rescue ActiveRecord::RecordNotFound, JWT::DecodeError
+    false
+  end
+
   def token
     request.headers[:Authorization].split(" ").last if request.headers[:Authorization].present?
   end

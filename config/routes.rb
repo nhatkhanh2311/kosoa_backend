@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     post "users/avatar", to: "users#avatar"
     get "users/personal", to: "users#personal"
     post "users/show", to: "users#show"
+    post "users/author", to: "users#author"
 
     # System Terms
     post "terms/index", to: "system_terms#index"
@@ -28,6 +29,19 @@ Rails.application.routes.draw do
     post "classes/show", to: "courses#show"
     post "classes/create", to: "courses#create"
     post "classes/avatar", to: "courses#avatar"
+    get "classes/joined", to: "courses#joined"
+
+    # Class Sets
+    post "sets/index", to: "course_sets#index"
+    post "sets/show", to: "course_sets#show"
+    post "sets/create", to: "course_sets#create"
+    post "sets/destroy", to: "course_sets#destroy"
+
+    # Class Terms
+    post "class-terms/index", to: "course_terms#index"
+    post "class-terms/create", to: "course_terms#create"
+    post "class-terms/update", to: "course_terms#update"
+    post "class-terms/destroy", to: "course_terms#destroy"
 
     # Members
     post "members/accepted", to: "members#index_accepted"

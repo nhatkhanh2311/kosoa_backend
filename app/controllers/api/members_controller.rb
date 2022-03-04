@@ -1,5 +1,6 @@
 class Api::MembersController < ApplicationController
-  before_action :teacher?, only: %i[index_accepted index_requested accept reject]
+  before_action :teacher_or_student?, only: %i[index_accepted]
+  before_action :teacher?, only: %i[index_requested accept reject]
   before_action :student?, only: %i[create destroy check_joined]
 
   def index_accepted
