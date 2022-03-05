@@ -1,8 +1,14 @@
 class Api::CoursesController < ApplicationController
-  before_action :teacher?, only: %i[create avatar]
+  before_action :teacher?, only: %i[index create avatar]
+  before_action :student?, only: %i[joined]
 
   def index
     courses = @user.courses
+    render json: { courses: courses_to_json(courses) }, status: :ok
+  end
+
+  def index_user
+    courses = Course.where(user_id: params.require(:id))
     render json: { courses: courses_to_json(courses) }, status: :ok
   end
 
@@ -37,6 +43,11 @@ class Api::CoursesController < ApplicationController
 
   def joined
     courses = Course.where("id IN (SELECT course_id FROM members WHERE user_id = #{@user.id})")
+    render json: { courses: courses_to_json(courses) }, status: :ok
+  end
+
+  def joined_user
+    courses = Course.where("id IN (SELECT course_id FROM members WHERE user_id = #{params.require(:id)})")
     render json: { courses: courses_to_json(courses) }, status: :ok
   end
 

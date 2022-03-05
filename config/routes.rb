@@ -26,10 +26,12 @@ Rails.application.routes.draw do
 
     # Classes
     get "classes/index", to: "courses#index"
+    post "classes/index-user", to: "courses#index_user"
     post "classes/show", to: "courses#show"
     post "classes/create", to: "courses#create"
     post "classes/avatar", to: "courses#avatar"
     get "classes/joined", to: "courses#joined"
+    post "classes/joined-user", to: "courses#joined_user"
 
     # Class Sets
     post "sets/index", to: "course_sets#index"
