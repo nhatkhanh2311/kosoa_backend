@@ -80,7 +80,7 @@ class Api::CoursesController < ApplicationController
       name: course.name,
       description: course.description,
       avatar: course.avatar.url,
-      members: course.members.count
+      members: course.members.where(accepted: true).count
     }
   end
 end
