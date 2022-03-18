@@ -26,6 +26,15 @@ class Api::CoursesController < ApplicationController
     end
   end
 
+  def update
+    course = Course.find(params.require(:id))
+    if course.update(course_params)
+      render status: :accepted
+    else
+      render status: :unprocessable_entity
+    end
+  end
+
   def avatar
     course = Course.find(params.require(:id))
     course.avatar.purge if course.avatar.attached?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_01_160602) do
+ActiveRecord::Schema.define(version: 2022_03_14_143748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,16 @@ ActiveRecord::Schema.define(version: 2022_03_01_160602) do
     t.index %w[blob_id variation_digest], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "comment_votes", force: :cascade do |t|
+    t.boolean "kind", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "term_comment_id"
+    t.index ["term_comment_id"], name: "index_comment_votes_on_term_comment_id"
+    t.index ["user_id"], name: "index_comment_votes_on_user_id"
+  end
+
   create_table "course_sets", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -63,6 +73,7 @@ ActiveRecord::Schema.define(version: 2022_03_01_160602) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "course_set_id"
     t.index ["course_set_id"], name: "index_course_terms_on_course_set_id"
+    t.index %w[term course_set_id], name: "index_course_terms_on_term_and_course_set_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -133,6 +144,8 @@ ActiveRecord::Schema.define(version: 2022_03_01_160602) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comment_votes", "term_comments"
+  add_foreign_key "comment_votes", "users"
   add_foreign_key "course_sets", "courses"
   add_foreign_key "course_terms", "course_sets"
   add_foreign_key "courses", "users"

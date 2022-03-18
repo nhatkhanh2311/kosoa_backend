@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post "sign-in", to: "sessions#create"
 
     # Users
+    post "users/update", to: "users#update"
     post "users/choose-level", to: "users#choose_level"
     post "users/avatar", to: "users#avatar"
     get "users/personal", to: "users#personal"
@@ -22,13 +23,20 @@ Rails.application.routes.draw do
 
     # Term Comments
     post "term/comments/index", to: "term_comments#index"
+    post "term/comments/show", to: "term_comments#show"
     post "term/comments/create", to: "term_comments#create"
+
+    # Votes
+    post "votes/create", to: "comment_votes#create"
+    post "votes/update", to: "comment_votes#update"
+    post "votes/destroy", to: "comment_votes#destroy"
 
     # Classes
     get "classes/index", to: "courses#index"
     post "classes/index-user", to: "courses#index_user"
     post "classes/show", to: "courses#show"
     post "classes/create", to: "courses#create"
+    post "classes/update", to: "courses#update"
     post "classes/avatar", to: "courses#avatar"
     get "classes/joined", to: "courses#joined"
     post "classes/joined-user", to: "courses#joined_user"
